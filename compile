@@ -1,0 +1,9 @@
+#!/bin/sh
+
+[ $# -ge 1 ] && 
+    for n in $@
+    do
+        [ $n != $0 ] &&
+        dest="${n%.*}.pdf" 
+        pandoc "$n" -f markdown+implicit_figures+raw_attribute -t latex -s -o "$dest" && echo "$dest"
+    done

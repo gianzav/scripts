@@ -1,0 +1,6 @@
+#!/bin/bash
+# menu to select a fontawesome icon, then copied into system clipboard
+
+dmenu_col=$HOME/.local/bin/dmenu_col
+
+cat ~/.icons.txt | "$dmenu_col" -l 10 | sed -ne 's/ .*//p' | xclip -selection "clipboard" \

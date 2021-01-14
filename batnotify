@@ -1,0 +1,9 @@
+#!/bin/bash
+
+info=$(acpi -b | grep "Battery" | tail -n 1)
+
+# remove information before the battery level number
+pre=${info#*, }
+
+# remove the information after the number and notify if too low 
+[ ${pre%\%, *} -le 10 ] && notify-send -u critical -t 10000 "WARNING: Low battery" || exit 0;

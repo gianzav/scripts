@@ -1,0 +1,13 @@
+#!/bin/sh
+
+if [ $# -eq 1 ] 
+then
+    path=$1_$(date +%d-%m-%y)
+    mkdir $path
+    cd $path
+    $EDITOR $path.md
+    exit 0
+else
+    echo "Invalid number of arguments"
+    exit 1
+fi

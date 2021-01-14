@@ -1,0 +1,19 @@
+#!/bin/sh
+
+function search () {
+    curl -s "https://www.treccani.it/vocabolario/$1" | grep lemma | expand | \
+        sed -E "s/<[^>]*>//g; s/^ *//; s/(.{80}.{,10}) /\1\n/g;"
+}
+
+res=$(search $1)
+
+if [ -z "$res" ]
+then
+    echo -e "No results for '$1', results found for:\n"
+    for n in {1..5}; do
+        res=$(search "$1$n")
+        [ -n "$res" ] && echo -e "$1$n"
+    done
+else
+    echo -e "\n\n$res\n\n"
+fi

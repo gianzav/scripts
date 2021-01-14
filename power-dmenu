@@ -1,0 +1,9 @@
+#!/bin/bash
+
+export choice=$(echo -e "suspend\nhibernate\nshutdown" | dmenu -i -p "What do you want to do?")
+if [ $choice = "shutdown" ]
+then
+    shutdown -h now
+else
+    systemctl $choice
+fi

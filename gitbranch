@@ -1,0 +1,4 @@
+#!/bin/sh
+# prints the name of the branch if in a git repo
+
+[ -e .git ] && git status | awk '/On branch/ {print "<" $3 ">"}'

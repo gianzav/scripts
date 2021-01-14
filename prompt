@@ -1,0 +1,4 @@
+#!/bin/sh
+
+[ $(echo -e "Yes\nNo" | dmenu-m 0 -fn "Iosevka:size=12" -nb "#282828" -nf "#ebdbb2" -sb "#98971a" -sf "#eeeeee" -p "$1") = 'Yes' ] \
+    && "$2" || notify-send -t 3000 "command not executed: $2"
