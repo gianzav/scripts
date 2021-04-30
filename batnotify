@@ -1,9 +1,12 @@
 #!/bin/bash
 
-info=$(acpi -b | grep "Battery" | tail -n 1)
+bat_now=$(cat /sys/class/power_supply/BAT1/charge_now)
+bat_full=$(cat /sys/class/power_supply/BAT1/charge_full)
+bat_perc=$((bat_now*100/bat_full))
+bat_state=$(cat /sys/class/power_supply/BAT1/status)
 
 # remove information before the battery level number
-pre=${info#*, }
 
 # remove the information after the number and notify if too low 
-[ ${pre%\%, *} -le 10 ] && notify-send -u critical -t 10000 "WARNING: Low battery" || exit 0;
+[ "$bat_perc" -le 10 ] && [ "$bat_state" = 'Discharging' ] && \
+    notify-send -u critical -t 10000 "WARNING: Low battery" || exit 0;

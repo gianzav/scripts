@@ -1,3 +1,3 @@
 #!/bin/bash
 
-dmenu "$@" -m 0 -fn "Iosevka:size=12" -nb "#282828" -nf "#ebdbb2" -sb "#98971a" -sf "#eeeeee"
+dmenu "$@" -fn "BmPlus IBM VGA 8x16" -nb "#3f3f3f" -nf "#d0d0d0" -sb "#87afaf" -sf "#3f3f3f"

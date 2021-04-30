@@ -4,20 +4,67 @@ function audio() {
     [ $(pulsemixer --get-mute) -eq 0 ] && pulsemixer --get-volume || echo "muted"
 }
 
+function battery() {
+    bat_now=$(cat /sys/class/power_supply/BAT1/charge_now)
+    bat_full=$(cat /sys/class/power_supply/BAT1/charge_full)
+    bat_state=$(cat /sys/class/power_supply/BAT1/status)
+    
+    bat_perc=$((bat_now*100/bat_full))
+
+    if ( test "$bat_state" = 'Charging' )
+    then
+        echo "  $bat_perc%" 
+        return 0
+    fi
+
+    icon_full=" "
+    icon_three_quarters=" "
+    icon_half=" "
+    icon_one_quarter=" "
+    icon_empty=" "
+
+    if ( test $bat_perc -le 10 ) 
+    then
+        icon_curr="$icon_empty"
+    elif ( test $bat_perc -le 25 )
+    then
+        icon_curr="$icon_one_quarter"
+    elif ( test $bat_perc -le 50 )
+    then
+        icon_curr="$icon_half"
+    elif ( test $bat_perc -le 75 )
+    then
+        icon_curr="$icon_three_quarters"
+    else
+        icon_curr="$icon_full"
+    fi
+
+    
+    if ( test "$bat_state" = 'Discharging' )
+    then
+        echo "$icon_curr $bat_perc%"
+    else
+        echo "$icon_curr Full $bat_perc%"
+    fi
+}
+
 function main() {
     while true; do
-        up=$(uptime | grep -Eo 'up *[0-9]{,2}:*[0-9]{,2}( min)*')
+        
+
+
+        up=$(uptime -p | sed 's/ days/d/; s/ hours/h/; s/ minutes/m/;')
         date=$(date +"%H:%M, %a %d-%m-%y")
         disk=$(df -h /dev/sda2 | awk '/dev/ {print $5}')
-        bat=$(acpi -b | grep -Eo '[0-9]{,3}%' | tail -n 1)
         mem=$(free | awk '/Mem/ {printf "%d%%\n", ($3 / $2)*100}')
+        bat=$(battery)
         cpu=$(top -bn1 | awk '/Cpu\(s\)/ {print $2 + $6 "%/" $4 "%"}')
         audio=$(audio)
         ssid=$(wpa_cli status | grep -i '^ssid')
 
         name='                    '
         name+="  $disk |  ${audio% *} | $date |  ${up#up } |  $cpu |  $mem |"
-        name+="  ${ssid#*=} |  $bat "
+        name+="  ${ssid#*=} | $bat "
 
         xsetroot -name "$name"
         sleep 1

@@ -1,5 +1,10 @@
 #!/bin/sh
 
+nocolor='\e[00m'
+green='\e[32m'
+red='\e[31m'
+blue='\e[1;34m' # 1 before color means bold
+
 function search () {
     curl -s "https://www.treccani.it/vocabolario/$1" | grep lemma | expand | \
         sed -E "s/<[^>]*>//g; s/^ *//; s/(.{80}.{,10}) /\1\n/g;"
@@ -14,6 +19,14 @@ then
         res=$(search "$1$n")
         [ -n "$res" ] && echo -e "$1$n"
     done
+    [ -n $(search "$1_(Neologismi)") ] && echo -e "$1_(Neologismi)"
 else
-    echo -e "\n\n$res\n\n"
+    echo -e "\n\n$red$1$nocolor ${res#* }\n\n"
 fi
+
+# per ottenere le info da wordreference faccio finta di essere un browser tramite
+# user agent, -L per seguire le redirezioni
+# curl -L --user-agent 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:59.0) Gecko/20100101 Firefox/59.0' http://wordreference.com/iten/bere -O
+
+# per filtrare le informazioni necessarie
+# grep -E "FrWrd.*ToWrd" bere | sed "s/<[^>]*>//g; s/:root.*\}//g"
