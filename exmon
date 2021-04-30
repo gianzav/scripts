@@ -1,0 +1,13 @@
+#!/bin/sh
+# exmon
+# simple script to manage an HDMI output
+# $1 is the position where to place the output relative to the laptop screen
+
+case "$1" in
+    "right") opt="--right-of";;
+    "left") opt="--left-of";;
+    "above") opt="--above";;
+    "below") opt="--below";;
+esac
+
+xrandr --auto && xrandr --output HDMI-A-0 "$opt" eDP
