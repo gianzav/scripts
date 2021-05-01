@@ -1,24 +1,27 @@
 #!/bin/sh
+# Manage TODO's with https://github.com/sjl/t and dmenu
 
 PATH_TO_T="$HOME/repos/t/t.py"
 TASK_DIR="$HOME/docs/tasks"
 TASKS_LIST='tasks'
 
+# Uncomment this to use builtin dmenu
+alias dmenu="dmenu -fn 'BmPlus IBM VGA 8x16' -nb '#3f3f3f' -nf '#d0d0d0' -sb '#87afaf' -sf '#3f3f3f'"
 alias t="python $PATH_TO_T --task-dir $TASK_DIR --list $TASKS_LIST"
 
-choice=$( echo -e "Show\nAdd\nDelete\n" | dmenu_col -i -p "Choose an action" )
+choice=$( echo -e "Show\nAdd\nDelete\n" | dmenu -i -p "Choose an action" )
 
 [ $? -eq 1 ] && exit 0
 
 if (test $choice = 'Add')
 then
-    echo "" | dmenu_col -p "TODO:"| xargs t > /dev/null
+    echo "" | dmenu -p "TODO:"| xargs t | xargs notify-send -u low -t 1000
 elif (test $choice = 'Delete')
 then
-    t | dmenu_col -p "DONE:" -i -l 10 | cut -d' ' -f1 | xargs t -f
+    t | dmenu -p "DONE:" -i -l 10 | cut -d' ' -f1 | xargs t -f | xargs notify-send -u low -t 1000
 elif (test $choice = 'Show')
 then
-    t | dmenu_col -p "PENDING:" -l 10 > /dev/null ; exit 0
+    t | dmenu -p "PENDING:" -l 10 > /dev/null ; exit 0
 else
     exit 0
 fi
