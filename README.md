@@ -19,6 +19,9 @@ Here are some scripts that I use in my usual workflow.
 * **prompt**: yes/no dmenu prompt to execute a command passed by argument
 * **voc**: command line tool to search a word in Treccani online dictionary
   (all in the terminal *it's not just a link to the website*)
+* **exmon**: set the placement of an external HDMI display
+* **dmenu_todo**: simple TODO manager based on https://github.com/sjl/t and
+  dmenu
 
 If you land on this page and want to contribute to my scripts, currently I would
 like to add more features to **voc** with other languages and translation
