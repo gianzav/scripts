@@ -61,9 +61,10 @@ function main() {
         cpu=$(top -bn1 | awk '/Cpu\(s\)/ {print $2 + $6 "%/" $4 "%"}')
         audio=$(audio)
         ssid=$(wpa_cli status | grep -i '^ssid')
+        tasks=$(t | wc -l)
 
         name='                    '
-        name+="  $disk |  ${audio% *} | $date |  ${up#up } |  $cpu |  $mem |"
+        name+=" $tasks tasks |  $disk |  ${audio% *} | $date |  ${up#up } |  $cpu |  $mem |"
         name+="  ${ssid#*=} | $bat "
 
         xsetroot -name "$name"
