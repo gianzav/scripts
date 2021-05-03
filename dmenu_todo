@@ -15,10 +15,10 @@ choice=$( echo -e "Show\nAdd\nDelete\n" | dmenu -i -p "Choose an action" )
 
 if (test $choice = 'Add')
 then
-    echo "" | dmenu -p "TODO:"| xargs t | xargs notify-send -u low -t 1000
+    echo "" | dmenu -p "TODO:"| xargs -0 t | xargs -0 notify-send -u low -t 1000
 elif (test $choice = 'Delete')
 then
-    t | dmenu -p "DONE:" -i -l 10 | cut -d' ' -f1 | xargs t -f | xargs notify-send -u low -t 1000
+    t | dmenu -p "DONE:" -i -l 10 | cut -d' ' -f1 | xargs -0 t -f | xargs -0 notify-send -u low -t 1000
 elif (test $choice = 'Show')
 then
     t | dmenu -p "PENDING:" -l 10 > /dev/null ; exit 0
