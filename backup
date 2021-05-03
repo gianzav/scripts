@@ -1,7 +1,16 @@
 #!/bin/bash
 # simple backup utility using rsync
 
-DEST=$1
-[ -n $1 ] && \
-rsync -aAXv --delete --exclude={"/dev/*","/proc/*","/sys/*","/tmp/*","/run/*",\
-"/mnt/*","/media/*","/lost+found"} / $DEST || echo "please provide a destination"
+rsync --info=progress2 -aAXHvv --delete \
+    --exclude="/dev/*" \
+    --exclude="/proc/*" \
+    --exclude="/sys/*" \
+    --exclude="/tmp/*" \
+    --exclude="/run/*" \
+    --exclude="/mnt/*" \
+    --exclude="/media/*" \
+    --exclude="/lost+found" \
+    --exclude="/var/lib/dhcpcd/*" \
+    --exclude="/var/cache/pacman/pkg/*" \
+    --exclude=".cache" \
+    / "$1"
