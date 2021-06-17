@@ -22,6 +22,7 @@ Here are some scripts that I use in my usual workflow.
 * **exmon**: set the placement of an external HDMI display
 * **dmenu_todo**: simple TODO manager based on https://github.com/sjl/t and
   dmenu
+* **keyboard-toggle**: toggle laptop keyboard with a key 
 
 If you land on this page and want to contribute to my scripts, currently I would
 like to add more features to **voc** with other languages and translation

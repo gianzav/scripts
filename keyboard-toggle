@@ -1,0 +1,8 @@
+#!/bin/sh
+# Enable/disable laptop keyboard based on current state
+
+state=$(xinput list-props 'AT Translated Set 2 keyboard' | \
+    grep -i 'device enabled' | \
+    grep -o -E '[01]{1}$') 
+
+[ $state -eq 1 ] && xinput disable 'AT Translated Set 2 keyboard' || xinput enable 'AT Translated Set 2 keyboard'

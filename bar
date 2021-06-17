@@ -11,19 +11,17 @@ function battery() {
     
     bat_perc=$((bat_now*100/bat_full))
 
+
+    icon_full=""
+    icon_three_quarters=""
+    icon_half=""
+    icon_one_quarter=""
+    icon_empty=""
+
     if ( test "$bat_state" = 'Charging' )
     then
-        echo "  $bat_perc%" 
-        return 0
-    fi
-
-    icon_full=" "
-    icon_three_quarters=" "
-    icon_half=" "
-    icon_one_quarter=" "
-    icon_empty=" "
-
-    if ( test $bat_perc -le 10 ) 
+        icon_curr=""
+    elif ( test $bat_perc -le 10 ) 
     then
         icon_curr="$icon_empty"
     elif ( test $bat_perc -le 25 )
@@ -39,13 +37,7 @@ function battery() {
         icon_curr="$icon_full"
     fi
 
-    
-    if ( test "$bat_state" = 'Discharging' )
-    then
-        echo "$icon_curr $bat_perc%"
-    else
-        echo "$icon_curr Full $bat_perc%"
-    fi
+    echo "$icon_curr $bat_perc%"
 }
 
 function main() {
