@@ -1,0 +1,33 @@
+#!/bin/sh
+
+# export TRASH="$HOME/.trash"
+
+# trash can config
+function trashp() {
+    mv -v "$@" "$TRASH"
+}
+
+function trashc() {
+    echo "Do you want to clean the trash can? (y/N)"
+    read choice
+    [[ $choice = "y" || $choice = "yes" ]] && rm -rfv $TRASH/* || exit 0
+}
+
+function trashl() {
+    ls --color=always -lah $TRASH
+}
+
+
+function main() {
+
+    # defaults to -l with no arguments
+    [[ $# -eq 0 ]] && ( trashl ; exit 0 )
+
+    case "$1" in
+        "-p") trashp "$@";;
+        "-c") trashc;;
+        "-l") trashl;;
+    esac
+}
+
+main "$@"
