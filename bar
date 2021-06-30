@@ -4,41 +4,41 @@ function audio() {
     [ $(pulsemixer --get-mute) -eq 0 ] && pulsemixer --get-volume || echo "muted"
 }
 
-function battery() {
-    bat_now=$(cat /sys/class/power_supply/BAT1/charge_now)
-    bat_full=$(cat /sys/class/power_supply/BAT1/charge_full)
-    bat_state=$(cat /sys/class/power_supply/BAT1/status)
-    
-    bat_perc=$((bat_now*100/bat_full))
-
-
-    icon_full=""
-    icon_three_quarters=""
-    icon_half=""
-    icon_one_quarter=""
-    icon_empty=""
-
-    if ( test "$bat_state" = 'Charging' )
-    then
-        icon_curr=""
-    elif ( test $bat_perc -le 10 ) 
-    then
-        icon_curr="$icon_empty"
-    elif ( test $bat_perc -le 25 )
-    then
-        icon_curr="$icon_one_quarter"
-    elif ( test $bat_perc -le 50 )
-    then
-        icon_curr="$icon_half"
-    elif ( test $bat_perc -le 75 )
-    then
-        icon_curr="$icon_three_quarters"
-    else
-        icon_curr="$icon_full"
-    fi
-
-    echo "$icon_curr $bat_perc%"
-}
+#function battery() {
+#    bat_now=$(cat /sys/class/power_supply/BAT1/charge_now)
+#    bat_full=$(cat /sys/class/power_supply/BAT1/charge_full)
+#    bat_state=$(cat /sys/class/power_supply/BAT1/status)
+#    
+#    bat_perc=$((bat_now*100/bat_full))
+#
+#
+#    icon_full=""
+#    icon_three_quarters=""
+#    icon_half=""
+#    icon_one_quarter=""
+#    icon_empty=""
+#
+#    if ( test "$bat_state" = 'Charging' )
+#    then
+#        icon_curr=""
+#    elif ( test $bat_perc -le 10 ) 
+#    then
+#        icon_curr="$icon_empty"
+#    elif ( test $bat_perc -le 25 )
+#    then
+#        icon_curr="$icon_one_quarter"
+#    elif ( test $bat_perc -le 50 )
+#    then
+#        icon_curr="$icon_half"
+#    elif ( test $bat_perc -le 75 )
+#    then
+#        icon_curr="$icon_three_quarters"
+#    else
+#        icon_curr="$icon_full"
+#    fi
+#
+#    echo "$icon_curr $bat_perc%"
+#}
 
 function main() {
     while true; do
@@ -47,17 +47,15 @@ function main() {
 
         up=$(uptime -p | sed 's/ days/d/; s/ hours/h/; s/ minutes/m/;')
         date=$(date +"%H:%M, %a %d-%m-%y")
-        disk=$(df -h /dev/sda2 | awk '/dev/ {print $5}')
+        disk=$(df -h | grep "/$" | tr -s ' ' | cut -d' ' -f5)
         mem=$(free | awk '/Mem/ {printf "%d%%\n", ($3 / $2)*100}')
-        bat=$(battery)
+        # bat=$(battery)
         cpu=$(top -bn1 | awk '/Cpu\(s\)/ {print $2 + $6 "%/" $4 "%"}')
         audio=$(audio)
-        ssid=$(wpa_cli status | grep -i '^ssid')
+        # ssid=$(wpa_cli status | grep -i '^ssid')
         tasks=$(t | wc -l)
 
-        name='                    '
-        name+=" $tasks tasks |  $disk |  ${audio% *} | $date |  ${up#up } |  $cpu |  $mem |"
-        name+="  ${ssid#*=} | $bat "
+        name=" $tasks tasks |  $disk |  ${audio% *} | $date |  ${up#up } |  $cpu |  $mem "
 
         xsetroot -name "$name"
         sleep 1
