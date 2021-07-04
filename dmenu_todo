@@ -6,7 +6,13 @@ TASK_DIR="$HOME/docs/tasks"
 TASKS_LIST='tasks'
 
 # Uncomment this to use builtin dmenu
-alias dmenu="dmenu -fn 'BmPlus IBM VGA 8x16' -nb '#3f3f3f' -nf '#d0d0d0' -sb '#87afaf' -sf '#3f3f3f'"
+screenw=1920
+screenh=1080
+width=$((screenw/2))
+x=$((screenw/2 - width/2))
+y=$((screenh/2))
+
+alias dmenu="dmenu -x $x -y $y -z $width"
 alias t="python $PATH_TO_T --task-dir $TASK_DIR --list $TASKS_LIST"
 
 choice=$( echo -e "Show\nAdd\nDelete\n" | dmenu -i -p "Choose an action" )

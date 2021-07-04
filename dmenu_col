@@ -1,3 +1,11 @@
 #!/bin/bash
 
-dmenu "$@" -fn "BmPlus IBM VGA 8x16" -nb "#3f3f3f" -nf "#d0d0d0" -sb "#87afaf" -sf "#3f3f3f"
+screenw=1920
+screenh=1080
+
+width=$((screenw/4))
+x=$(($screenw/2 - $width/2))
+y=$((screenh/2))
+
+dmenu "$@" -fn "BmPlus IBM VGA 8x16" -nb "#3f3f3f" -nf "#d0d0d0" -sb "#87afaf" \
+    -sf "#3f3f3f" -x $x -y $y -z $width
