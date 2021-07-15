@@ -9,7 +9,7 @@ TASKS_LIST='tasks'
 screenw=1920
 screenh=1080
 width=$((screenw/2))
-x=$((screenw/2 - width/2))
+x=$((screenw/2))
 y=$((screenh/2))
 
 alias dmenu="dmenu -x $x -y $y -z $width"
