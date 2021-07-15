@@ -1,4 +1,10 @@
 #!/bin/sh
 
-[ $(echo -e "No\nYes" | dmenu_col -fn "Iosevka:size=12" -nb "#282828" -nf "#ebdbb2" -sb "#98971a" -sf "#eeeeee" -p "$1") = "Yes" ] \
+screenw=1920
+screenh=1080
+width=$((screenw/4))
+x=$((screenw/2))
+y=$((screenh/2))
+
+[ $(echo -e "No\nYes" | dmenu -p "$1" -z $width -x $x -y $y) = "Yes" ] \
     && $2 || notify-send -t 3000 "command not executed: $2"
