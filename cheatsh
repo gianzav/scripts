@@ -1,0 +1,13 @@
+#!/bin/sh
+
+sections="lua c cpp node js react python grep awk sed magick"
+
+s=`echo $sections | tr ' ' '\n' | fzf`
+
+query=""
+
+echo -n "query: " && read query
+query=`echo $query | tr ' ' '+'`
+
+
+curl "cht.sh/$s/$query"
